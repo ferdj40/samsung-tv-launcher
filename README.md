@@ -4,6 +4,10 @@ I wrote a custom launcher for my Samsung TV: a clock, a photo background, a dock
 
 It is a normal Tizen web app. HTML, CSS, JavaScript, no framework.
 
+![The launcher: greeting, clock, date, weather, and a dock of apps over a photo background](images/launcher.jpg)
+
+*The launcher rendered at 1920x1080 in a desktop browser. Background: "Blue Lake in Mount Cook National Park" by Krzysztof Golik, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).*
+
 One limit up front: an app cannot replace Samsung's Home screen. Turn on **Settings > General > Smart Features > Autorun Last App** and the TV opens your launcher at power-on. In practice that is enough.
 
 Tested on a 2021 Samsung (Tizen 6.0). Placeholders used below: `TV_IP` is your TV's address, `MAC_IP` is your computer's, `PI_IP` is a Raspberry Pi if you use one.
