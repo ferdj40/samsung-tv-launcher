@@ -235,6 +235,41 @@ It works most of the time. A switch takes 5 to 10 seconds because it passes thro
 | App installs but the screen is blank | Check for `inset` or `gap`; test in a browser first. |
 | An app will not launch | Wrong id. Compare with `sdb shell 0 applist`. |
 
+## Sideloading FAQ
+
+**Can I sideload apps on a Samsung TV?**
+Yes. Turn on Developer Mode, make a signing certificate, and install a Tizen `.wgt` package with `sdb` and the `tizen` CLI. That is the same flow as step 3.
+
+**Can I install an APK?**
+No. Samsung TVs run Tizen, not Android. Only `.wgt` web apps install.
+
+**Can I install a `.wgt` someone else built?**
+Not as it comes. The TV only accepts packages signed with a certificate that includes your TV's DUID. Unzip the `.wgt`, then repackage and sign it with your own profile:
+
+```sh
+tizen package -t wgt -s MyTV -o ./out -- ./unzipped-app
+```
+
+If the app's `config.xml` has an id that clashes with an app already on the TV, change the package id first.
+
+**Do I need a Samsung account?**
+Yes, a free one. Certificate Manager uses it to issue your certificate.
+
+**Does it work on every Samsung TV?**
+Only Tizen models from about 2016 on. Every TV needs its own DUID in the certificate, so a certificate made for one TV will not install on another until you add that TV.
+
+**Does the install last?**
+Samsung developer certificates expire. Check the validity dates in Certificate Manager, and re-sign and reinstall before the date passes.
+
+**Why does `sdb connect` fail?**
+Almost always the host IP in Developer Mode. It must be the address your computer uses to reach the TV. After changing it, unplug the TV and wait a few minutes; it can show as offline before it connects.
+
+**Why does a sideloaded app say "launch service failed"?**
+Some apps ship with a background service that does not start on every TV. I hit this with a standalone YouTube-client build. Another build of the same app, which needed the host IP set to `127.0.0.1`, did run, but with that setting my computer lost `sdb` access. If you try apps like these, expect trial and error.
+
+**Can I remove a sideloaded app?**
+Yes: `tizen uninstall -p PACKAGE_ID -t YOUR_TV_MODEL`, or hold the Enter button on the app in the TV's app list.
+
 ---
 
 Questions or fixes welcome in the issues.
